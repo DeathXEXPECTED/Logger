@@ -28,29 +28,30 @@ local uiList = Instance.new("UIListLayout", scrollingFrame)
 uiList.SortOrder = Enum.SortOrder.LayoutOrder
 uiList.Padding = UDim.new(0, 4)
 
--- Utility: Add log entry
+-- Utility: Add log entry as selectable TextBox
 local function addLogEntry(text)
     local timestamp = os.date("[%H:%M:%S] ")
-    local log = Instance.new("TextLabel")
-    log.Size = UDim2.new(1, 0, 0, 20)
-    log.BackgroundTransparency = 1
-    log.TextColor3 = Color3.new(1, 1, 1)
-    log.Font = Enum.Font.SourceSans
-    log.TextSize = 16
-    log.TextXAlignment = Enum.TextXAlignment.Left
-    log.Text = timestamp .. text
-    log.Parent = scrollingFrame
+    local logBox = Instance.new("TextBox")
+    logBox.Size = UDim2.new(1, 0, 0, 24)
+    logBox.BackgroundTransparency = 1
+    logBox.TextColor3 = Color3.new(1, 1, 1)
+    logBox.Font = Enum.Font.SourceSans
+    logBox.TextSize = 16
+    logBox.TextXAlignment = Enum.TextXAlignment.Left
+    logBox.Text = timestamp .. text
+    logBox.ClearTextOnFocus = false
+    logBox.TextEditable = false  -- Makes it selectable but not editable
+    logBox.Parent = scrollingFrame
 
-    -- Update canvas size
     scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, uiList.AbsoluteContentSize.Y)
 end
 
--- Event: Player joined
+-- Player joined
 Players.PlayerAdded:Connect(function(player)
     addLogEntry(player.Name .. " has joined the server.")
 end)
 
--- Event: Player left
+-- Player left
 Players.PlayerRemoving:Connect(function(player)
     addLogEntry(player.Name .. " has left the server.")
 end)
